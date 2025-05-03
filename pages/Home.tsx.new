@@ -1,0 +1,1000 @@
+import React, { useEffect } from 'react';
+import { Link, useLocation } from 'wouter';
+
+// Define window.echarts for TypeScript
+declare global {
+  interface Window {
+    echarts: any;
+  }
+}
+
+const Home: React.FC = () => {
+  // Navigation
+  const [, setLocation] = useLocation();
+  
+  // State for modals 
+  const [showUploadModal, setShowUploadModal] = React.useState(false);
+  const [showTemplateModal, setShowTemplateModal] = React.useState(false);
+  const [showInsightsModal, setShowInsightsModal] = React.useState(false);
+  const [showDataTableModal, setShowDataTableModal] = React.useState(false);
+  const [dataTableTitle, setDataTableTitle] = React.useState("");
+  const [dataTableContent, setDataTableContent] = React.useState<any[]>([]);
+  
+  // Dashboard navigation functions
+  const navigateToDashboard = (id: string) => {
+    setLocation(`/dashboards/${id}`);
+  };
+  
+  // Function to show data table for metrics
+  const showDataTable = (title: string, data: any[]) => {
+    setDataTableTitle(title);
+    setDataTableContent(data);
+    setShowDataTableModal(true);
+  };
+  
+  // Initialize charts after component mounts
+  useEffect(() => {
+    if (window.echarts) {
+      // Revenue Sparkline
+      const revenueChart = window.echarts.init(document.getElementById('revenue-sparkline'));
+      revenueChart.setOption({
+        grid: { left: 0, right: 0, top: 0, bottom: 0 },
+        xAxis: { show: false, type: 'category', data: Array.from({ length: 10 }, (_, i) => i) },
+        yAxis: { show: false, type: 'value' },
+        series: [{
+          type: 'line',
+          showSymbol: false,
+          data: [5, 7, 4, 8, 6, 9, 8, 10, 9, 11],
+          lineStyle: { color: '#4f46e5', width: 2 },
+          areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(79, 70, 229, 0.2)' }, { offset: 1, color: 'rgba(79, 70, 229, 0.01)' }] } }
+        }]
+      });
+
+      // Users Sparkline
+      const usersChart = window.echarts.init(document.getElementById('users-sparkline'));
+      usersChart.setOption({
+        grid: { left: 0, right: 0, top: 0, bottom: 0 },
+        xAxis: { show: false, type: 'category', data: Array.from({ length: 10 }, (_, i) => i) },
+        yAxis: { show: false, type: 'value' },
+        series: [{
+          type: 'line',
+          showSymbol: false,
+          data: [8, 6, 9, 10, 8, 9, 11, 10, 12, 13],
+          lineStyle: { color: '#8b5cf6', width: 2 },
+          areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(139, 92, 246, 0.2)' }, { offset: 1, color: 'rgba(139, 92, 246, 0.01)' }] } }
+        }]
+      });
+
+      // Conversion Rate Sparkline
+      const conversionChart = window.echarts.init(document.getElementById('conversion-sparkline'));
+      conversionChart.setOption({
+        grid: { left: 0, right: 0, top: 0, bottom: 0 },
+        xAxis: { show: false, type: 'category', data: Array.from({ length: 10 }, (_, i) => i) },
+        yAxis: { show: false, type: 'value' },
+        series: [{
+          type: 'line',
+          showSymbol: false,
+          data: [3, 3.2, 3.1, 3.5, 3.4, 3.6, 3.7, 3.6, 3.8, 3.8],
+          lineStyle: { color: '#10b981', width: 2 },
+          areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(16, 185, 129, 0.2)' }, { offset: 1, color: 'rgba(16, 185, 129, 0.01)' }] } }
+        }]
+      });
+
+      // Churn Rate Sparkline
+      const churnChart = window.echarts.init(document.getElementById('churn-sparkline'));
+      churnChart.setOption({
+        grid: { left: 0, right: 0, top: 0, bottom: 0 },
+        xAxis: { show: false, type: 'category', data: Array.from({ length: 10 }, (_, i) => i) },
+        yAxis: { show: false, type: 'value' },
+        series: [{
+          type: 'line',
+          showSymbol: false,
+          data: [2.2, 2.1, 2.0, 1.9, 1.8, 1.7, 1.65, 1.6, 1.55, 1.5],
+          lineStyle: { color: '#f59e0b', width: 2 },
+          areaStyle: { color: { type: 'linear', x: 0, y: 0, x2: 0, y2: 1, colorStops: [{ offset: 0, color: 'rgba(245, 158, 11, 0.2)' }, { offset: 1, color: 'rgba(245, 158, 11, 0.01)' }] } }
+        }]
+      });
+
+      // Revenue Trend Chart
+      const revenueTrendChart = window.echarts.init(document.getElementById('revenue-trend-chart'));
+      revenueTrendChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          formatter: '{b}: ${c}k'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          top: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          boundaryGap: false,
+          data: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug'],
+          axisLine: {
+            lineStyle: {
+              color: '#eaeaea'
+            }
+          },
+          axisLabel: {
+            color: '#7c7c7c'
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            color: '#7c7c7c',
+            formatter: '${value}k'
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#eaeaea'
+            }
+          }
+        },
+        series: [
+          {
+            name: 'Enterprise',
+            type: 'line',
+            stack: 'Total',
+            data: [120, 132, 145, 160, 178, 195, 210, 235],
+            lineStyle: {
+              width: 3,
+              color: '#4f46e5'
+            },
+            symbol: 'none',
+            areaStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  { offset: 0, color: 'rgba(79, 70, 229, 0.2)' },
+                  { offset: 1, color: 'rgba(79, 70, 229, 0.02)' }
+                ]
+              }
+            }
+          },
+          {
+            name: 'SMB',
+            type: 'line',
+            stack: 'Total',
+            data: [82, 90, 95, 102, 110, 115, 122, 130],
+            lineStyle: {
+              width: 3,
+              color: '#a855f7'
+            },
+            symbol: 'none',
+            areaStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  { offset: 0, color: 'rgba(168, 85, 247, 0.2)' },
+                  { offset: 1, color: 'rgba(168, 85, 247, 0.02)' }
+                ]
+              }
+            }
+          },
+          {
+            name: 'Consumer',
+            type: 'line',
+            stack: 'Total',
+            data: [40, 42, 45, 48, 52, 55, 58, 62],
+            lineStyle: {
+              width: 3,
+              color: '#10b981'
+            },
+            symbol: 'none',
+            areaStyle: {
+              color: {
+                type: 'linear',
+                x: 0,
+                y: 0,
+                x2: 0,
+                y2: 1,
+                colorStops: [
+                  { offset: 0, color: 'rgba(16, 185, 129, 0.2)' },
+                  { offset: 1, color: 'rgba(16, 185, 129, 0.02)' }
+                ]
+              }
+            }
+          }
+        ]
+      });
+
+      // Engagement Chart
+      const engagementChart = window.echarts.init(document.getElementById('engagement-chart'));
+      engagementChart.setOption({
+        tooltip: {
+          trigger: 'axis',
+          formatter: '{b}: {c}%'
+        },
+        grid: {
+          left: '3%',
+          right: '4%',
+          bottom: '3%',
+          top: '3%',
+          containLabel: true
+        },
+        xAxis: {
+          type: 'category',
+          data: ['Week 1', 'Week 2', 'Week 3', 'Week 4', 'Week 5', 'Week 6', 'Week 7', 'Week 8'],
+          axisLine: {
+            lineStyle: {
+              color: '#eaeaea'
+            }
+          },
+          axisLabel: {
+            color: '#7c7c7c'
+          }
+        },
+        yAxis: {
+          type: 'value',
+          axisLine: {
+            show: false
+          },
+          axisLabel: {
+            color: '#7c7c7c',
+            formatter: '{value}%'
+          },
+          splitLine: {
+            lineStyle: {
+              color: '#eaeaea'
+            }
+          }
+        },
+        series: [
+          {
+            name: 'Mobile App',
+            type: 'bar',
+            data: [85, 82, 78, 76, 74, 73, 72, 70],
+            itemStyle: {
+              color: '#0ea5e9'
+            },
+            barMaxWidth: '30%'
+          },
+          {
+            name: 'Web',
+            type: 'bar',
+            data: [75, 68, 62, 55, 50, 45, 40, 38],
+            itemStyle: {
+              color: '#f59e0b'
+            },
+            barMaxWidth: '30%'
+          },
+          {
+            name: 'Desktop',
+            type: 'bar',
+            data: [65, 55, 48, 42, 35, 32, 28, 25],
+            itemStyle: {
+              color: '#f43f5e'
+            },
+            barMaxWidth: '30%'
+          }
+        ]
+      });
+
+      // Handle window resize events for responsive charts
+      const handleResize = () => {
+        revenueChart.resize();
+        usersChart.resize();
+        conversionChart.resize();
+        churnChart.resize();
+        revenueTrendChart.resize();
+        engagementChart.resize();
+      };
+
+      window.addEventListener('resize', handleResize);
+
+      // Cleanup on component unmount
+      return () => {
+        window.removeEventListener('resize', handleResize);
+        revenueChart.dispose();
+        usersChart.dispose();
+        conversionChart.dispose();
+        churnChart.dispose();
+        revenueTrendChart.dispose();
+        engagementChart.dispose();
+      };
+    }
+  }, []);
+
+  return (
+    <div className="flex-1 flex flex-col overflow-hidden">
+      <div className="flex-1 overflow-y-auto custom-scrollbar">
+        <div className="p-8">
+          {/* Welcome Header */}
+          <div className="mb-8">
+            <h1 className="text-3xl font-bold text-gray-900">
+              Welcome to InsightFlow
+            </h1>
+            <p className="text-gray-500 mt-2">
+              Turn your data into dashboards with AI, templates, and zero code
+            </p>
+          </div>
+
+          {/* Quick Actions */}
+          <div className="flex flex-wrap gap-4 mb-8">
+            <button
+              onClick={() => setShowUploadModal(true)}
+              className="bg-primary text-white px-5 py-3 rounded-button flex items-center shadow-sm hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              <div className="w-5 h-5 flex items-center justify-center mr-2">
+                <i className="ri-upload-2-line"></i>
+              </div>
+              <span>Upload Dataset</span>
+            </button>
+            <button
+              onClick={() => setShowTemplateModal(true)}
+              className="bg-primary text-white px-5 py-3 rounded-button flex items-center shadow-sm hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              <div className="w-5 h-5 flex items-center justify-center mr-2">
+                <i className="ri-layout-grid-line"></i>
+              </div>
+              <span>Start from Template</span>
+            </button>
+            <button
+              onClick={() => setShowInsightsModal(true)}
+              className="bg-primary text-white px-5 py-3 rounded-button flex items-center shadow-sm hover:bg-primary/90 transition-colors whitespace-nowrap"
+            >
+              <div className="w-5 h-5 flex items-center justify-center mr-2">
+                <i className="ri-magic-line"></i>
+              </div>
+              <span>Generate Insights</span>
+            </button>
+          </div>
+
+          {/* Key Metrics */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Key Metrics
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-5">
+              {/* Total Revenue */}
+              <div className="bg-white rounded shadow p-5 relative">
+                {/* Clickable corner icon to show data table */}
+                <button 
+                  onClick={() => showDataTable("Revenue Data", [
+                    { month: "Jan", value: "$240k", growth: "+12%" },
+                    { month: "Feb", value: "$265k", growth: "+10%" },
+                    { month: "Mar", value: "$290k", growth: "+9%" },
+                    { month: "Apr", value: "$310k", growth: "+7%" },
+                    { month: "May", value: "$340k", growth: "+9%" },
+                    { month: "Jun", value: "$375k", growth: "+10%" },
+                    { month: "Jul", value: "$410k", growth: "+9%" },
+                    { month: "Aug", value: "$450k", growth: "+9%" },
+                    { month: "Sep", value: "$495k", growth: "+10%" },
+                    { month: "Oct", value: "$540k", growth: "+9%" }
+                  ])}
+                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                  <i className="ri-table-line text-xs"></i>
+                </button>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="text-sm text-gray-500">Total Revenue</p>
+                    <h3 className="text-2xl font-bold">$3.2M</h3>
+                  </div>
+                  <div
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-blue-100 text-blue-600"
+                  >
+                    <i className="ri-money-dollar-circle-line"></i>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div
+                    className="flex items-center text-green-500 text-sm font-medium mr-2"
+                  >
+                    <div className="w-4 h-4 flex items-center justify-center mr-1">
+                      <i className="ri-arrow-up-line"></i>
+                    </div>
+                    <span>12.4%</span>
+                  </div>
+                  <span className="text-xs text-gray-500">vs last month</span>
+                </div>
+                <div className="h-10 mt-3" id="revenue-sparkline"></div>
+              </div>
+
+              {/* Active Users */}
+              <div className="bg-white rounded shadow p-5 relative">
+                {/* Clickable corner icon to show data table */}
+                <button 
+                  onClick={() => showDataTable("Users Data", [
+                    { segment: "Enterprise", users: "5,204", growth: "+15%" },
+                    { segment: "SMB", users: "8,120", growth: "+9%" },
+                    { segment: "Consumer", users: "11,197", growth: "+6%" },
+                    { segment: "New Signups", users: "1,845", growth: "+22%" },
+                    { segment: "Mobile App Users", users: "14,320", growth: "+18%" },
+                    { segment: "Web Users", users: "10,201", growth: "+4%" }
+                  ])}
+                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                  <i className="ri-table-line text-xs"></i>
+                </button>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="text-sm text-gray-500">Active Users</p>
+                    <h3 className="text-2xl font-bold">24,521</h3>
+                  </div>
+                  <div
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-purple-100 text-purple-600"
+                  >
+                    <i className="ri-user-line"></i>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div
+                    className="flex items-center text-green-500 text-sm font-medium mr-2"
+                  >
+                    <div className="w-4 h-4 flex items-center justify-center mr-1">
+                      <i className="ri-arrow-up-line"></i>
+                    </div>
+                    <span>8.7%</span>
+                  </div>
+                  <span className="text-xs text-gray-500">vs last month</span>
+                </div>
+                <div className="h-10 mt-3" id="users-sparkline"></div>
+              </div>
+
+              {/* Conversion Rate */}
+              <div className="bg-white rounded shadow p-5 relative">
+                {/* Clickable corner icon to show data table */}
+                <button 
+                  onClick={() => showDataTable("Conversion Rate Data", [
+                    { channel: "Organic Search", rate: "4.2%", change: "+0.7%" },
+                    { channel: "Paid Search", rate: "3.6%", change: "+0.4%" },
+                    { channel: "Social Media", rate: "2.8%", change: "+0.3%" },
+                    { channel: "Email", rate: "5.9%", change: "+0.8%" },
+                    { channel: "Referral", rate: "4.5%", change: "+0.6%" },
+                    { channel: "Direct", rate: "3.1%", change: "+0.2%" }
+                  ])}
+                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                  <i className="ri-table-line text-xs"></i>
+                </button>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="text-sm text-gray-500">Conversion Rate</p>
+                    <h3 className="text-2xl font-bold">3.8%</h3>
+                  </div>
+                  <div
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-green-100 text-green-600"
+                  >
+                    <i className="ri-percent-line"></i>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div
+                    className="flex items-center text-green-500 text-sm font-medium mr-2"
+                  >
+                    <div className="w-4 h-4 flex items-center justify-center mr-1">
+                      <i className="ri-arrow-up-line"></i>
+                    </div>
+                    <span>0.5%</span>
+                  </div>
+                  <span className="text-xs text-gray-500">vs last month</span>
+                </div>
+                <div className="h-10 mt-3" id="conversion-sparkline"></div>
+              </div>
+
+              {/* Churn Rate */}
+              <div className="bg-white rounded shadow p-5 relative">
+                {/* Clickable corner icon to show data table */}
+                <button 
+                  onClick={() => showDataTable("Churn Rate Data", [
+                    { segment: "Enterprise", rate: "0.9%", change: "-0.2%" },
+                    { segment: "SMB", rate: "1.6%", change: "-0.4%" },
+                    { segment: "Consumer", rate: "2.1%", change: "-0.3%" },
+                    { segment: "0-3 months", rate: "3.2%", change: "-0.5%" },
+                    { segment: "3-12 months", rate: "1.8%", change: "-0.3%" },
+                    { segment: ">12 months", rate: "0.7%", change: "-0.1%" }
+                  ])}
+                  className="absolute top-2 right-2 w-6 h-6 flex items-center justify-center rounded-full bg-gray-100 text-gray-500 hover:bg-gray-200 transition-colors"
+                >
+                  <i className="ri-table-line text-xs"></i>
+                </button>
+                <div className="flex justify-between items-start mb-3">
+                  <div>
+                    <p className="text-sm text-gray-500">Churn Rate</p>
+                    <h3 className="text-2xl font-bold">1.5%</h3>
+                  </div>
+                  <div
+                    className="w-9 h-9 flex items-center justify-center rounded-full bg-yellow-100 text-yellow-600"
+                  >
+                    <i className="ri-user-unfollow-line"></i>
+                  </div>
+                </div>
+                <div className="flex items-center">
+                  <div
+                    className="flex items-center text-green-500 text-sm font-medium mr-2"
+                  >
+                    <div className="w-4 h-4 flex items-center justify-center mr-1">
+                      <i className="ri-arrow-down-line"></i>
+                    </div>
+                    <span>0.3%</span>
+                  </div>
+                  <span className="text-xs text-gray-500">vs last month</span>
+                </div>
+                <div className="h-10 mt-3" id="churn-sparkline"></div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recent Dashboards */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">
+                Recent Dashboards
+              </h2>
+              <Link href="/dashboard">
+                <span className="text-primary text-sm hover:underline cursor-pointer">
+                  View All
+                </span>
+              </Link>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {/* Dashboard 1 */}
+              <div 
+                onClick={() => navigateToDashboard('marketing')}
+                className="bg-white rounded shadow overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="aspect-w-16 aspect-h-9 bg-gray-100">
+                  <div className="w-full h-40 bg-gradient-to-r from-indigo-500 to-purple-500"></div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium text-gray-900">
+                    Marketing Performance
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Last edited 2 days ago
+                  </p>
+                </div>
+              </div>
+              
+              {/* Dashboard 2 */}
+              <div 
+                onClick={() => navigateToDashboard('sales')}
+                className="bg-white rounded shadow overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="aspect-w-16 aspect-h-9 bg-gray-100">
+                  <div className="w-full h-40 bg-gradient-to-r from-blue-500 to-teal-500"></div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium text-gray-900">
+                    Sales Analytics
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Last edited 5 days ago
+                  </p>
+                </div>
+              </div>
+              
+              {/* Dashboard 3 */}
+              <div 
+                onClick={() => navigateToDashboard('retention')}
+                className="bg-white rounded shadow overflow-hidden cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="aspect-w-16 aspect-h-9 bg-gray-100">
+                  <div className="w-full h-40 bg-gradient-to-r from-green-500 to-emerald-500"></div>
+                </div>
+                <div className="p-4">
+                  <h3 className="font-medium text-gray-900">
+                    Customer Retention
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Last edited 1 week ago
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Quick Templates */}
+          <div className="mb-8">
+            <h2 className="text-xl font-semibold text-gray-800 mb-4">
+              Quick Templates
+            </h2>
+            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+              {/* Template 1 */}
+              <div 
+                onClick={() => setShowTemplateModal(true)}
+                className="bg-white rounded shadow p-5 flex items-center cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="w-12 h-12 rounded-full bg-indigo-100 text-primary flex items-center justify-center mr-4">
+                  <i className="ri-line-chart-line text-xl"></i>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-gray-900">Sales Dashboard</h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Revenue, conversions, and top products
+                  </p>
+                </div>
+              </div>
+              
+              {/* Template 2 */}
+              <div 
+                onClick={() => setShowTemplateModal(true)}
+                className="bg-white rounded shadow p-5 flex items-center cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="w-12 h-12 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-4">
+                  <i className="ri-user-heart-line text-xl"></i>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-gray-900">
+                    Customer Analytics
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Engagement, retention, and demographics
+                  </p>
+                </div>
+              </div>
+              
+              {/* Template 3 */}
+              <div 
+                onClick={() => setShowTemplateModal(true)}
+                className="bg-white rounded shadow p-5 flex items-center cursor-pointer hover:shadow-md transition-shadow"
+              >
+                <div className="w-12 h-12 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-4">
+                  <i className="ri-advertisement-line text-xl"></i>
+                </div>
+                <div className="flex-1">
+                  <h3 className="font-medium text-gray-900">
+                    Marketing Performance
+                  </h3>
+                  <p className="text-sm text-gray-500 mt-1">
+                    Campaign ROI, channels, and audience
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          {/* Recommended Insights */}
+          <div className="mb-8">
+            <div className="flex justify-between items-center mb-4">
+              <h2 className="text-xl font-semibold text-gray-800">
+                Recommended Insights
+              </h2>
+              <span 
+                onClick={() => setShowInsightsModal(true)}
+                className="text-primary text-sm hover:underline cursor-pointer">
+                View All
+              </span>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-5">
+              {/* Chart 1: Revenue Trend */}
+              <div className="bg-white rounded shadow overflow-hidden">
+                <div className="p-4 border-b">
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-medium text-gray-900">
+                      Revenue Trend Analysis
+                    </h3>
+                    <div className="text-gray-500">
+                      <i className="ri-more-2-line"></i>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-1">
+                    AI-generated insight: Revenue growing fastest in enterprise segment
+                  </p>
+                </div>
+                <div className="p-4">
+                  <div className="w-full h-64 bg-gray-50 rounded flex items-center justify-center">
+                    <div id="revenue-trend-chart" className="w-full h-full"></div>
+                  </div>
+                  <div className="flex justify-between items-center mt-4">
+                    <div className="flex items-center">
+                      <span className="w-3 h-3 bg-primary rounded-full mr-2"></span>
+                      <span className="text-sm text-gray-600">Enterprise</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-3 h-3 bg-purple-500 rounded-full mr-2"></span>
+                      <span className="text-sm text-gray-600">SMB</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-3 h-3 bg-emerald-500 rounded-full mr-2"></span>
+                      <span className="text-sm text-gray-600">Consumer</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              
+              {/* Chart 2: Customer Retention */}
+              <div className="bg-white rounded shadow overflow-hidden">
+                <div className="p-4 border-b">
+                  <div className="flex justify-between items-center">
+                    <h3 className="font-medium text-gray-900">
+                      User Engagement by Channel
+                    </h3>
+                    <div className="text-gray-500">
+                      <i className="ri-more-2-line"></i>
+                    </div>
+                  </div>
+                  <p className="text-sm text-gray-500 mt-1">
+                    AI-generated insight: Mobile app users have 3.2x higher retention
+                  </p>
+                </div>
+                <div className="p-4">
+                  <div className="w-full h-64 bg-gray-50 rounded flex items-center justify-center">
+                    <div id="engagement-chart" className="w-full h-full"></div>
+                  </div>
+                  <div className="flex justify-between items-center mt-4">
+                    <div className="flex items-center">
+                      <span className="w-3 h-3 bg-sky-500 rounded-full mr-2"></span>
+                      <span className="text-sm text-gray-600">Mobile App</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-3 h-3 bg-amber-500 rounded-full mr-2"></span>
+                      <span className="text-sm text-gray-600">Web</span>
+                    </div>
+                    <div className="flex items-center">
+                      <span className="w-3 h-3 bg-rose-500 rounded-full mr-2"></span>
+                      <span className="text-sm text-gray-600">Desktop</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      {/* Upload Dataset Modal */}
+      {showUploadModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-md p-6 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-medium text-gray-900">Upload Dataset</h3>
+              <button onClick={() => setShowUploadModal(false)} className="text-gray-500 hover:text-gray-700">
+                <i className="ri-close-line text-xl"></i>
+              </button>
+            </div>
+            <div className="space-y-4">
+              <div className="border-2 border-dashed border-gray-300 rounded-lg p-8 text-center">
+                <div className="mx-auto flex items-center justify-center h-12 w-12 rounded-full bg-indigo-100 mb-4">
+                  <i className="ri-upload-2-line text-primary text-xl"></i>
+                </div>
+                <p className="text-gray-700 mb-2">Drag and drop your file here, or click to browse</p>
+                <p className="text-sm text-gray-500">Supported formats: CSV, Excel, JSON</p>
+                <button className="mt-4 px-4 py-2 bg-primary text-white rounded hover:bg-primary/90 transition-colors">
+                  Browse Files
+                </button>
+              </div>
+
+              <div className="flex justify-end">
+                <button 
+                  onClick={() => setShowUploadModal(false)}
+                  className="bg-gray-100 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-200 transition-colors"
+                >
+                  Cancel
+                </button>
+                <button className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">
+                  Upload
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Templates Modal */}
+      {showTemplateModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-4xl p-6 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-medium text-gray-900">Choose a Template</h3>
+              <button onClick={() => setShowTemplateModal(false)} className="text-gray-500 hover:text-gray-700">
+                <i className="ri-close-line text-xl"></i>
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-indigo-100 text-primary flex items-center justify-center mr-3">
+                    <i className="ri-line-chart-line"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Sales Dashboard</h4>
+                    <p className="text-sm text-gray-500">Revenue, conversions, and top products</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-purple-100 text-purple-600 flex items-center justify-center mr-3">
+                    <i className="ri-user-heart-line"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Customer Analytics</h4>
+                    <p className="text-sm text-gray-500">Engagement, retention, and demographics</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-green-100 text-green-600 flex items-center justify-center mr-3">
+                    <i className="ri-advertisement-line"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Marketing Performance</h4>
+                    <p className="text-sm text-gray-500">Campaign ROI, channels, and audience</p>
+                  </div>
+                </div>
+              </div>
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex items-center">
+                  <div className="w-10 h-10 rounded-full bg-blue-100 text-blue-600 flex items-center justify-center mr-3">
+                    <i className="ri-coin-line"></i>
+                  </div>
+                  <div>
+                    <h4 className="font-medium text-gray-900">Financial Overview</h4>
+                    <p className="text-sm text-gray-500">Revenue, expenses, and profitability</p>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button 
+                onClick={() => setShowTemplateModal(false)}
+                className="bg-gray-100 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-200 transition-colors"
+              >
+                Cancel
+              </button>
+              <button 
+                className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors"
+                onClick={() => {
+                  setShowTemplateModal(false);
+                  navigateToDashboard('new');
+                }}
+              >
+                Use Template
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Insights Modal */}
+      {showInsightsModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-4xl p-6 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-medium text-gray-900">AI-Generated Insights</h3>
+              <button onClick={() => setShowInsightsModal(false)} className="text-gray-500 hover:text-gray-700">
+                <i className="ri-close-line text-xl"></i>
+              </button>
+            </div>
+            <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-4">
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-medium text-gray-900">Revenue Growth Analysis</h4>
+                  <div className="text-primary">
+                    <i className="ri-star-line"></i>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mb-3">Enterprise segment shows 3.2x higher growth rate compared to other segments</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-400">Generated 2 days ago</span>
+                  <button className="text-xs text-primary hover:underline">View Details</button>
+                </div>
+              </div>
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-medium text-gray-900">Conversion Rate Optimization</h4>
+                  <div className="text-primary">
+                    <i className="ri-star-line"></i>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mb-3">Email campaigns have 2.1x higher conversion rates than social media</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-400">Generated 3 days ago</span>
+                  <button className="text-xs text-primary hover:underline">View Details</button>
+                </div>
+              </div>
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-medium text-gray-900">User Engagement Patterns</h4>
+                  <div className="text-primary">
+                    <i className="ri-star-line"></i>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mb-3">Mobile app users engage 4.5x more frequently than web users</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-400">Generated 1 week ago</span>
+                  <button className="text-xs text-primary hover:underline">View Details</button>
+                </div>
+              </div>
+              <div className="border rounded-lg p-4 hover:border-primary cursor-pointer hover:shadow-sm transition-all">
+                <div className="flex justify-between items-start mb-2">
+                  <h4 className="font-medium text-gray-900">Churn Prediction</h4>
+                  <div className="text-primary">
+                    <i className="ri-star-line"></i>
+                  </div>
+                </div>
+                <p className="text-sm text-gray-500 mb-3">Identified 245 at-risk customers with 78% likelihood of churning</p>
+                <div className="flex justify-between items-center">
+                  <span className="text-xs text-gray-400">Generated 5 days ago</span>
+                  <button className="text-xs text-primary hover:underline">View Details</button>
+                </div>
+              </div>
+            </div>
+            <div className="flex justify-end">
+              <button 
+                onClick={() => setShowInsightsModal(false)}
+                className="bg-gray-100 text-gray-700 px-4 py-2 rounded mr-2 hover:bg-gray-200 transition-colors"
+              >
+                Close
+              </button>
+              <button className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors">
+                Generate New Insight
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* Data Table Modal */}
+      {showDataTableModal && (
+        <div className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50">
+          <div className="bg-white rounded-lg w-full max-w-2xl p-6 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-xl font-medium text-gray-900">{dataTableTitle}</h3>
+              <button onClick={() => setShowDataTableModal(false)} className="text-gray-500 hover:text-gray-700">
+                <i className="ri-close-line text-xl"></i>
+              </button>
+            </div>
+            
+            <div className="overflow-x-auto">
+              <table className="min-w-full divide-y divide-gray-200">
+                <thead className="bg-gray-50">
+                  <tr>
+                    {dataTableContent.length > 0 && Object.keys(dataTableContent[0]).map((key, index) => (
+                      <th 
+                        key={index}
+                        className="px-6 py-3 text-left text-xs font-medium text-gray-500 uppercase tracking-wider"
+                      >
+                        {key}
+                      </th>
+                    ))}
+                  </tr>
+                </thead>
+                <tbody className="bg-white divide-y divide-gray-200">
+                  {dataTableContent.map((row, rowIndex) => (
+                    <tr key={rowIndex}>
+                      {Object.values(row).map((value, colIndex) => (
+                        <td key={colIndex} className="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+                          {String(value)}
+                        </td>
+                      ))}
+                    </tr>
+                  ))}
+                </tbody>
+              </table>
+            </div>
+            
+            <div className="flex justify-end mt-4">
+              <button 
+                onClick={() => setShowDataTableModal(false)}
+                className="bg-primary text-white px-4 py-2 rounded hover:bg-primary/90 transition-colors"
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+};
+
+export default Home;

@@ -1,0 +1,289 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Dashboard Builder Styles */
+.drop-zone {
+  border: 2px dashed #ddd;
+  background-color: rgba(247, 248, 251, 0.7);
+  transition: all 0.2s ease-in-out;
+}
+
+.drop-zone:hover {
+  border-color: #4f46e5;
+  background-color: rgba(79, 70, 229, 0.05);
+}
+
+.component-card {
+  transition: all 0.15s ease-in-out;
+}
+
+.component-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border-color: #4f46e5;
+}
+
+.component-search {
+  outline: none !important;
+  box-shadow: none !important;
+}
+
+.tab-button {
+  position: relative;
+  transition: all 0.2s ease;
+}
+
+.tab-button.active::after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  right: 0;
+  height: 2px;
+  background-color: #4f46e5;
+}
+
+.chart-container {
+  width: 100%;
+  height: 100%;
+}
+
+.canvas-grid {
+  background-image: radial-gradient(#e5e7eb 1px, transparent 1px);
+  background-size: 20px 20px;
+}
+
+.custom-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.custom-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+  border-radius: 20px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+  background-color: #4f46e5;
+}
+
+input:checked + .switch-slider:before {
+  transform: translateX(16px);
+}
+
+@layer base {
+  * {
+    @apply border-border;
+  }
+
+  body {
+    @apply font-sans antialiased bg-background text-foreground;
+    font-family: 'Inter', sans-serif;
+    background-color: #f9fafb;
+  }
+}
+
+/* Custom Scrollbar */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 6px;
+}
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: transparent;
+}
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background-color: rgba(156, 163, 175, 0.5);
+  border-radius: 20px;
+}
+
+/* Custom Switch */
+.custom-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+.custom-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+.slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e5e7eb;
+  transition: .4s;
+  border-radius: 34px;
+}
+.slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+input:checked + .slider {
+  background-color: #4f46e5;
+}
+input:checked + .slider:before {
+  transform: translateX(16px);
+}
+
+/* Custom Range Input */
+input[type="range"] {
+  -webkit-appearance: none;
+  width: 100%;
+  height: 6px;
+  border-radius: 5px;
+  background: #e5e7eb;
+  outline: none;
+}
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  appearance: none;
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: #4f46e5;
+  cursor: pointer;
+}
+
+/* Drag and Drop styles */
+.metric-card {
+  cursor: grab;
+}
+
+.metric-card:active {
+  cursor: grabbing;
+}
+
+.react-grid-item.react-grid-placeholder {
+  background: #4F46E5;
+  opacity: 0.2;
+  border-radius: 0.5rem;
+  transition-duration: 100ms;
+}
+
+.react-grid-item.is-dragging {
+  opacity: 0.8;
+  z-index: 100;
+}
+
+.react-resizable-handle {
+  display: none;
+}
+
+/* Pipeline Status Badges */
+.status-running {
+  @apply bg-green-100 text-green-700;
+}
+
+.status-paused {
+  @apply bg-yellow-100 text-yellow-700;
+}
+
+.status-failed {
+  @apply bg-red-100 text-red-700;
+}
+
+/* Pipeline Details Panel */
+.pipeline-details-panel {
+  transform: translateX(100%);
+}
+
+.pipeline-details-panel.open {
+  transform: translateX(0);
+}
+
+/* Dashboard Card styles */
+.dashboard-card:hover .hover-show {
+  display: flex;
+}
+
+.dashboard-card:hover .hover-hide {
+  display: none;
+}
+
+.draggable {
+  cursor: move;
+}
+
+.drag-container {
+  min-height: 120px;
+  border: 2px dashed #e5e7eb;
+  background-color: #f9fafb;
+}
+
+/* Custom checkbox styles for dashboards */
+input[type="checkbox"] {
+  appearance: none;
+  -webkit-appearance: none;
+  width: 1.25rem;
+  height: 1.25rem;
+  border: 2px solid #d1d5db;
+  border-radius: 0.25rem;
+  background-color: white;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  cursor: pointer;
+  position: relative;
+}
+
+input[type="checkbox"]:checked {
+  background-color: #4f46e5;
+  border-color: #4f46e5;
+}
+
+input[type="checkbox"]:checked::after {
+  content: '';
+  width: 0.5rem;
+  height: 0.5rem;
+  display: block;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+  position: absolute;
+  top: 0.2rem;
+}
+
+input[type="number"]::-webkit-inner-spin-button,
+input[type="number"]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
