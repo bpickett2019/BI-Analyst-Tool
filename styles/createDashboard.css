@@ -1,0 +1,256 @@
+/* CreateDashboard.css */
+
+:where([class^="ri-"])::before { content: "\f3c2"; }
+
+/* Component cards styling */
+.component-card {
+  transition: all 0.2s;
+  cursor: grab;
+}
+
+.component-card:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
+}
+
+.component-card:active {
+  cursor: grabbing;
+}
+
+/* Canvas grid background styling */
+.canvas-grid {
+  background-size: 20px 20px;
+  background-image:
+    linear-gradient(to right, rgba(81, 92, 230, 0.05) 1px, transparent 1px),
+    linear-gradient(to bottom, rgba(81, 92, 230, 0.05) 1px, transparent 1px);
+}
+
+/* Drop zone styling */
+.drop-zone {
+  border: 2px dashed #e2e8f0;
+  transition: all 0.2s;
+  height: 100%;
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+}
+
+.drop-zone.active {
+  border-color: #4361ee;
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+.drop-zone.can-drop {
+  border-color: #4361ee;
+  background-color: rgba(67, 97, 238, 0.05);
+}
+
+/* Widget container styles */
+.widget-container {
+  height: 100%;
+  width: 100%;
+  background-color: white;
+  border-radius: 0.5rem;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+/* Input range styling */
+input[type="range"] {
+  -webkit-appearance: none;
+  height: 6px;
+  background: #e2e8f0;
+  border-radius: 5px;
+  background-image: linear-gradient(#4361ee, #4361ee);
+  background-repeat: no-repeat;
+}
+
+input[type="range"]::-webkit-slider-thumb {
+  -webkit-appearance: none;
+  height: 16px;
+  width: 16px;
+  border-radius: 50%;
+  background: #4361ee;
+  cursor: pointer;
+  box-shadow: 0 0 2px 0 #555;
+}
+
+input[type="range"]::-webkit-slider-runnable-track {
+  -webkit-appearance: none;
+  box-shadow: none;
+  border: none;
+  background: transparent;
+}
+
+/* Custom switch */
+.custom-switch {
+  position: relative;
+  display: inline-block;
+  width: 36px;
+  height: 20px;
+}
+
+.custom-switch input {
+  opacity: 0;
+  width: 0;
+  height: 0;
+}
+
+.switch-slider {
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: #e2e8f0;
+  transition: .4s;
+  border-radius: 34px;
+}
+
+.switch-slider:before {
+  position: absolute;
+  content: "";
+  height: 16px;
+  width: 16px;
+  left: 2px;
+  bottom: 2px;
+  background-color: white;
+  transition: .4s;
+  border-radius: 50%;
+}
+
+input:checked + .switch-slider {
+  background-color: #4361ee;
+}
+
+input:checked + .switch-slider:before {
+  transform: translateX(16px);
+}
+
+/* Custom checkbox */
+.custom-checkbox {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-checkbox input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.checkmark {
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-checkbox:hover input ~ .checkmark {
+  border-color: #4361ee;
+}
+
+.custom-checkbox input:checked ~ .checkmark {
+  background-color: #4361ee;
+  border-color: #4361ee;
+}
+
+.checkmark:after {
+  content: "";
+  display: none;
+  width: 5px;
+  height: 10px;
+  border: solid white;
+  border-width: 0 2px 2px 0;
+  transform: rotate(45deg);
+}
+
+.custom-checkbox input:checked ~ .checkmark:after {
+  display: block;
+}
+
+/* Custom radio */
+.custom-radio {
+  position: relative;
+  display: flex;
+  align-items: center;
+  cursor: pointer;
+}
+
+.custom-radio input {
+  position: absolute;
+  opacity: 0;
+  cursor: pointer;
+  height: 0;
+  width: 0;
+}
+
+.radio-mark {
+  height: 18px;
+  width: 18px;
+  background-color: #fff;
+  border: 2px solid #e2e8f0;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.custom-radio:hover input ~ .radio-mark {
+  border-color: #4361ee;
+}
+
+.custom-radio input:checked ~ .radio-mark {
+  border-color: #4361ee;
+}
+
+.radio-mark:after {
+  content: "";
+  display: none;
+  width: 8px;
+  height: 8px;
+  border-radius: 50%;
+  background: #4361ee;
+}
+
+.custom-radio input:checked ~ .radio-mark:after {
+  display: block;
+}
+
+/* Component search */
+.component-search:focus {
+  outline: none;
+  box-shadow: 0 0 0 2px rgba(67, 97, 238, 0.2);
+}
+
+/* Tab button styling */
+.tab-button {
+  position: relative;
+}
+
+.tab-button.active:after {
+  content: '';
+  position: absolute;
+  bottom: -2px;
+  left: 0;
+  width: 100%;
+  height: 2px;
+  background-color: #4361ee;
+}
+
+/* Chart container */
+.chart-container {
+  width: 100%;
+  height: 100%;
+}
